@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import Main from '@/components/Main'
+import Index from '@/blog/Index'
+import About from '@/blog/About'
 
 Vue.use(Router)
 
@@ -9,13 +9,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'Index',
+      component: Index
     },
     {
-      path: '/main',
-      name: 'Main',
-      component: Main
+      path: '/about',
+      name: 'About',
+      component: About
     }
   ]
 })
+

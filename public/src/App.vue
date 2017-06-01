@@ -1,25 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-link :to="{name: 'Hello'}">Hello</router-link>
-    <router-link to="/main">Main</router-link>
+
+    <el-menu :default-active="activeIndex" class="el-menu-demo" router="true" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="0" route="/" disabled="disabled">Zachary's Blog</el-menu-item>
+      <el-menu-item index="1" route="/">首页</el-menu-item>
+      <el-menu-item index="2" route="/about">关于</el-menu-item>
+    </el-menu>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import ElMenuItem from '../node_modules/element-ui/packages/menu/src/menu-item'
+  export default {
+    components: {ElMenuItem},
+    name: 'app',
+    data: function () {
+      return {
+        activeIndex: '1'
+      }
+    }
+  }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped="">
+  #app{
+    margin: 0;
+  }
+
+  @import "assets/css/app.css";
 </style>
