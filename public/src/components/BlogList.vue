@@ -4,10 +4,19 @@
       <el-col class="article-title">{{ item.title }}</el-col>
       <el-col class="article-date"><i class="el-icon-date"></i>{{ " " + item.date }}</el-col>
       <el-col class="article-brief">{{ item.content }}</el-col>
-      <el-button class="btn-readmore" size="small">阅读全文</el-button>
+      <el-button class="btn-readmore" size="small" @click="goDetail(item.id)">阅读全文</el-button>
       <el-col>
         <el-tag class="article-tag" v-for="tag in item.tags" type="gray" :key="tag">{{ tag.name }}</el-tag>
       </el-col>
+    </el-row>
+    <el-row>
+      <div class="block">
+        <el-pagination
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+          :page-count=total_page>
+        </el-pagination>
+      </div>
     </el-row>
   </div>
 </template>
@@ -18,15 +27,32 @@
     components: {ElButton},
     data: function () {
       return {
-        blogs: []
+        blogs: [],
+        total_page: 0,
+        cur_page: this.$route.params.page
       }
     },
     mounted: function () {
-      this.$http.get('http://localhost:8000/blog/list').then(response => {
-        this.blogs = response.body
+      this.$http.get('http://localhost:8000/blog/list/' + this.page).then(response => {
+        this.blogs = response.body.data
+        this.total_page = response.body.total_page
       }, response => {
         alert('failed')
       })
+    },
+    methods: {
+      handleCurrentChange (val) {
+        this.page = val
+        this.$http.get('http://localhost:8000/blog/list/' + this.page).then(response => {
+          this.blogs = response.body.data
+          this.total_page = response.body.total_page
+        }, response => {
+          alert('failed')
+        })
+      },
+      goDetail (id) {
+        this.$router.push('/blog/' + id)
+      }
     }
   }
 </script>
